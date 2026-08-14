@@ -21,7 +21,10 @@ const Home = () => {
     if (loading) {
         return (
             <main className='loading-screen'>
-                <h1>Loading your interview plan...</h1>
+                <div className='spinner-container'>
+                    <div className='spinner'></div>
+                    <p className='loading-text'>Loading your interview plan...</p>
+                </div>
             </main>
         )
     }

@@ -50,6 +50,43 @@ $severity-low: #3fb950;
 }
 
 // ── Left Nav ─────────────────────────────────────────────────────────────────
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    color: $text-muted;
+    font-family: $font-stack;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 0.55rem 0.75rem;
+    border-radius: 0.5rem;
+    width: 100%;
+    transition: background-color 0.15s, color 0.15s, transform 0.1s;
+    margin-bottom: 1.25rem;
+
+    svg {
+        stroke: $text-muted;
+        transition: stroke 0.15s, transform 0.15s;
+    }
+
+    &:hover {
+        background-color: $bg-panel;
+        color: $text-primary;
+
+        svg {
+            stroke: $text-primary;
+            transform: translateX(-2px);
+        }
+    }
+
+    &:active {
+        transform: scale(0.98);
+    }
+}
+
 .interview-nav {
     width: 220px;
     flex-shrink: 0;

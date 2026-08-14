@@ -7,7 +7,14 @@ const Protected = ({children}) => {
 
 
     if(loading){
-        return (<main><h1>Loading...</h1></main>)
+        return (
+            <main className='loading-screen'>
+                <div className='spinner-container'>
+                    <div className='spinner'></div>
+                    <p className='loading-text'>Loading...</p>
+                </div>
+            </main>
+        )
     }
 
     if(!user){
