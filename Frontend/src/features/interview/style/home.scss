@@ -12,6 +12,7 @@ $badge-required: #ff2d78;
 $badge-best:     #ff2d78;
 $info-bg:        #1b2a4a;
 $info-border:    #2d4a7a;
+$severity-high:  #ff4d4d;
 $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
 // ── Page Shell ───────────────────────────────────────────────────────────────
@@ -28,6 +29,50 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
     justify-content: center;
     padding: 3rem 1.5rem;
     gap: 2rem;
+}
+
+// ── Top Bar & Logout ──────────────────────────────────────────────────────────
+.top-bar {
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: -1rem;
+}
+
+.logout-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: transparent;
+    border: 1px solid $border-color;
+    color: $text-muted;
+    font-family: $font-stack;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    svg {
+        stroke: $text-muted;
+        transition: stroke 0.2s;
+    }
+
+    &:hover {
+        background-color: rgba(#ff2d78, 0.1);
+        border-color: rgba(#ff2d78, 0.3);
+        color: #ff2d78;
+
+        svg {
+            stroke: #ff2d78;
+        }
+    }
+
+    &:active {
+        transform: scale(0.96);
+    }
 }
 
 // ── Page Header ──────────────────────────────────────────────────────────────
@@ -236,6 +281,98 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
         font-size: 0.75rem;
         color: $text-muted;
         margin: 0;
+    }
+}
+
+// ── Uploaded File Status ───────────────────────────────────────────────────────
+.uploaded-file-status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    background-color: rgba($accent, 0.06);
+    border: 1px solid rgba($accent, 0.25);
+    border-radius: 0.6rem;
+    animation: fadeSlideIn 0.2s ease-out;
+
+    .file-info {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        min-width: 0;
+
+        .file-icon {
+            flex-shrink: 0;
+            stroke: $accent;
+        }
+
+        .file-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+            min-width: 0;
+
+            .file-name {
+                margin: 0;
+                font-size: 0.875rem;
+                font-weight: 500;
+                color: $text-primary;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .file-size {
+                margin: 0;
+                font-size: 0.75rem;
+                color: $text-muted;
+            }
+        }
+    }
+
+    .remove-file-btn {
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        background: none;
+        border: 1px solid rgba($text-muted, 0.25);
+        border-radius: 50%;
+        color: $text-muted;
+        cursor: pointer;
+        transition: all 0.15s ease-in-out;
+
+        svg {
+            stroke: $text-muted;
+            transition: stroke 0.15s;
+        }
+
+        &:hover {
+            background-color: rgba($severity-high, 0.1);
+            border-color: rgba($severity-high, 0.4);
+
+            svg {
+                stroke: $severity-high;
+            }
+        }
+
+        &:active {
+            transform: scale(0.9);
+        }
+    }
+}
+
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
