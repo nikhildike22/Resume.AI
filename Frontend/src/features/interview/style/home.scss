@@ -1,157 +1,197 @@
-// ── Variables ────────────────────────────────────────────────────────────────
+// ── Variables ──────────────────────────────────────────────────────────────────
 $bg-page:        #0d1117;
 $bg-card:        #161b22;
 $bg-panel:       #1c2230;
 $bg-input:       #1e2535;
-$border-color:   #2a3348;
+$border:         #2a3348;
+$border-focus:   #ff2d78;
 $text-primary:   #e6edf3;
 $text-muted:     #7d8590;
+$text-label:     #a0aab8;
 $accent:         #ff2d78;
-$accent-alt:     #ff6b9d;
-$badge-required: #ff2d78;
-$badge-best:     #ff2d78;
-$info-bg:        #1b2a4a;
-$info-border:    #2d4a7a;
+$accent-glow:    rgba(#ff2d78, 0.18);
 $severity-high:  #ff4d4d;
-$font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$severity-mid:   #f5a623;
+$severity-low:   #3fb950;
+$font:           system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
-// ── Page Shell ───────────────────────────────────────────────────────────────
+// ── Scrollbar ─────────────────────────────────────────────────────────────────
+*::-webkit-scrollbar { width: 5px; }
+*::-webkit-scrollbar-track { background: $bg-card; }
+*::-webkit-scrollbar-thumb { background: $border; border-radius: 4px; }
+
+// ── Page Shell ────────────────────────────────────────────────────────────────
 .home-page {
     width: 100%;
     min-height: 100vh;
     background-color: $bg-page;
+    background-image:
+        radial-gradient(ellipse 80% 40% at 50% -10%, rgba($accent, 0.07) 0%, transparent 60%);
     color: $text-primary;
-    font-family: $font-stack;
-
+    font-family: $font;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 3rem 1.5rem;
+    padding: 2rem 1.5rem 3rem;
     gap: 2rem;
+    box-sizing: border-box;
 }
 
-// ── Top Bar & Logout ──────────────────────────────────────────────────────────
+// ── Top Bar ───────────────────────────────────────────────────────────────────
 .top-bar {
     width: 100%;
-    max-width: 900px;
+    max-width: 960px;
     display: flex;
-    justify-content: flex-end;
-    margin-bottom: -1rem;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.top-bar__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    .brand-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: $accent;
+        box-shadow: 0 0 8px rgba($accent, 0.7);
+    }
+
+    span {
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: $text-muted;
+    }
 }
 
 .logout-btn {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    background-color: transparent;
-    border: 1px solid $border-color;
+    gap: 0.45rem;
+    background: transparent;
+    border: 1px solid $border;
     color: $text-muted;
-    font-family: $font-stack;
-    font-size: 0.875rem;
+    font-family: $font;
+    font-size: 0.825rem;
     font-weight: 500;
-    padding: 0.5rem 1rem;
+    padding: 0.45rem 0.9rem;
     border-radius: 0.5rem;
     cursor: pointer;
-    transition: all 0.2s ease-in-out;
+    transition: color 0.18s, border-color 0.18s, background 0.18s, transform 0.1s;
 
-    svg {
-        stroke: $text-muted;
-        transition: stroke 0.2s;
-    }
+    svg { stroke: $text-muted; transition: stroke 0.18s; }
 
     &:hover {
-        background-color: rgba(#ff2d78, 0.1);
-        border-color: rgba(#ff2d78, 0.3);
-        color: #ff2d78;
-
-        svg {
-            stroke: #ff2d78;
-        }
+        color: $accent;
+        border-color: rgba($accent, 0.35);
+        background: rgba($accent, 0.06);
+        svg { stroke: $accent; }
     }
-
-    &:active {
-        transform: scale(0.96);
-    }
+    &:active { transform: scale(0.96); }
 }
 
-// ── Page Header ──────────────────────────────────────────────────────────────
+// ── Page Header ───────────────────────────────────────────────────────────────
 .page-header {
     text-align: center;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
 
     h1 {
-        font-size: 2.25rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
+        font-size: clamp(1.8rem, 4vw, 2.5rem);
+        font-weight: 800;
         color: $text-primary;
+        letter-spacing: -0.03em;
+        line-height: 1.15;
+        margin: 0;
     }
 
     p {
         color: $text-muted;
-        font-size: 0.95rem;
-        max-width: 480px;
-        margin: 0 auto;
-        line-height: 1.6;
+        font-size: 0.975rem;
+        line-height: 1.65;
+        margin: 0;
     }
 
-    .highlight {
-        color: $accent;
-    }
+    .highlight { color: $accent; }
 }
 
 // ── Main Card ─────────────────────────────────────────────────────────────────
 .interview-card {
     width: 100%;
-    max-width: 900px;
+    max-width: 960px;
     background-color: $bg-card;
-    border: 1px solid $border-color;
-    border-radius: 1rem;
+    border: 1px solid $border;
+    border-radius: 1.25rem;
     overflow: hidden;
+    box-shadow:
+        0 0 0 1px rgba($accent, 0.03),
+        0 24px 60px rgba(0, 0, 0, 0.45);
 
     &__body {
         display: flex;
-        min-height: 520px;
+        min-height: 500px;
     }
 
     &__footer {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 1rem 1.5rem;
-        border-top: 1px solid $border-color;
+        padding: 1rem 1.75rem;
+        border-top: 1px solid $border;
+        background-color: rgba($bg-panel, 0.5);
 
         .footer-info {
-            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.775rem;
             color: $text-muted;
+
+            &::before {
+                content: '';
+                display: inline-block;
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: $severity-low;
+                box-shadow: 0 0 5px rgba($severity-low, 0.6);
+            }
         }
     }
 }
 
-// ── Panels ────────────────────────────────────────────────────────────────────
+// ── Panel Divider ─────────────────────────────────────────────────────────────
 .panel-divider {
     width: 1px;
-    background-color: $border-color;
+    background: $border;
     flex-shrink: 0;
 }
 
+// ── Panels ────────────────────────────────────────────────────────────────────
 .panel {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding: 1.5rem;
+    padding: 1.75rem;
 
     &__header {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
-        margin-bottom: 0.25rem;
+        gap: 0.55rem;
 
         h2 {
-            font-size: 1rem;
-            font-weight: 600;
-            color: $text-primary;
             flex: 1;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: $text-primary;
+            margin: 0;
         }
     }
 
@@ -159,73 +199,71 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
         display: flex;
         align-items: center;
         color: $accent;
+        flex-shrink: 0;
     }
 
     &__textarea {
         flex: 1;
         width: 100%;
         background-color: $bg-input;
-        border: 1px solid $border-color;
-        border-radius: 0.5rem;
-        padding: 0.75rem 1rem;
+        border: 1px solid $border;
+        border-radius: 0.75rem;
+        padding: 0.875rem 1rem;
         color: $text-primary;
-        font-family: $font-stack;
+        font-family: $font;
         font-size: 0.875rem;
         resize: none;
         outline: none;
-        transition: border-color 0.2s;
-        line-height: 1.5;
+        transition: border-color 0.2s, box-shadow 0.2s;
+        line-height: 1.6;
+        box-sizing: border-box;
 
-        &::placeholder {
-            color: $text-muted;
-        }
+        &::placeholder { color: rgba($text-muted, 0.7); }
 
         &:focus {
-            border-color: $accent;
+            border-color: $border-focus;
+            box-shadow: 0 0 0 3px $accent-glow;
         }
 
         &--short {
             flex: unset;
-            height: 96px;
+            height: 100px;
         }
     }
 
-    &--left {
-        position: relative;
+    &--left { position: relative; }
+    &--right { gap: 0.85rem; }
+}
 
-        .char-counter {
-            position: absolute;
-            bottom: 2.25rem;
-            right: 2rem;
-            font-size: 0.75rem;
-            color: $text-muted;
-        }
-    }
+.char-counter {
+    font-size: 0.72rem;
+    color: $text-muted;
+    text-align: right;
+    margin-top: -0.5rem;
+    transition: color 0.2s;
 
-    &--right {
-        gap: 0.75rem;
-    }
+    &--warn { color: $accent; font-weight: 600; }
 }
 
 // ── Badges ────────────────────────────────────────────────────────────────────
 .badge {
-    font-size: 0.7rem;
-    font-weight: 600;
-    padding: 0.15rem 0.5rem;
-    border-radius: 0.3rem;
+    font-size: 0.67rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.05em;
+    padding: 0.18rem 0.55rem;
+    border-radius: 0.35rem;
 
     &--required {
-        background-color: rgba($badge-required, 0.15);
-        color: $badge-required;
-        border: 1px solid rgba($badge-required, 0.3);
+        color: $accent;
+        background: rgba($accent, 0.12);
+        border: 1px solid rgba($accent, 0.25);
     }
 
     &--best {
-        background-color: rgba($badge-best, 0.15);
-        color: $badge-best;
-        border: 1px solid rgba($badge-best, 0.3);
+        color: $severity-low;
+        background: rgba($severity-low, 0.1);
+        border: 1px solid rgba($severity-low, 0.25);
     }
 }
 
@@ -234,88 +272,88 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: $text-primary;
-    margin-bottom: 0.25rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: $text-label;
 }
 
-// ── Dropzone ──────────────────────────────────────────────────────────────────
+// ── Upload Section ────────────────────────────────────────────────────────────
 .upload-section {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
 
+// ── Dropzone ──────────────────────────────────────────────────────────────────
 .dropzone {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.35rem;
+    gap: 0.4rem;
     padding: 1.5rem 1rem;
     background-color: $bg-input;
-    border: 2px dashed $border-color;
-    border-radius: 0.6rem;
+    border: 2px dashed $border;
+    border-radius: 0.75rem;
     cursor: pointer;
     transition: border-color 0.2s, background-color 0.2s;
 
     &:hover {
         border-color: $accent;
-        background-color: rgba($accent, 0.05);
+        background-color: rgba($accent, 0.04);
+
+        .dropzone__icon { color: $accent; }
     }
 
     &__icon {
-        color: $accent;
-        margin-bottom: 0.25rem;
+        color: $text-muted;
+        transition: color 0.2s;
+        margin-bottom: 0.2rem;
     }
 
     &__title {
-        font-size: 0.875rem;
+        font-size: 0.85rem;
         font-weight: 500;
         color: $text-primary;
         margin: 0;
     }
 
     &__subtitle {
-        font-size: 0.75rem;
+        font-size: 0.73rem;
         color: $text-muted;
         margin: 0;
     }
 }
 
-// ── Uploaded File Status ───────────────────────────────────────────────────────
+// ── Uploaded File Status ──────────────────────────────────────────────────────
 .uploaded-file-status {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
-    padding: 0.875rem 1rem;
-    background-color: rgba($accent, 0.06);
-    border: 1px solid rgba($accent, 0.25);
-    border-radius: 0.6rem;
+    padding: 0.85rem 1rem;
+    background: rgba($accent, 0.06);
+    border: 1px solid rgba($accent, 0.22);
+    border-radius: 0.75rem;
     animation: fadeSlideIn 0.2s ease-out;
 
     .file-info {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
+        gap: 0.7rem;
         min-width: 0;
 
-        .file-icon {
-            flex-shrink: 0;
-            stroke: $accent;
-        }
+        .file-icon { flex-shrink: 0; stroke: $accent; }
 
         .file-details {
+            min-width: 0;
             display: flex;
             flex-direction: column;
-            gap: 0.15rem;
-            min-width: 0;
+            gap: 0.1rem;
 
             .file-name {
                 margin: 0;
-                font-size: 0.875rem;
+                font-size: 0.855rem;
                 font-weight: 500;
                 color: $text-primary;
                 white-space: nowrap;
@@ -325,7 +363,7 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
 
             .file-size {
                 margin: 0;
-                font-size: 0.75rem;
+                font-size: 0.72rem;
                 color: $text-muted;
             }
         }
@@ -336,64 +374,45 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 28px;
-        height: 28px;
+        width: 26px;
+        height: 26px;
         background: none;
-        border: 1px solid rgba($text-muted, 0.25);
+        border: 1px solid rgba($text-muted, 0.2);
         border-radius: 50%;
-        color: $text-muted;
         cursor: pointer;
-        transition: all 0.15s ease-in-out;
+        transition: all 0.15s;
 
-        svg {
-            stroke: $text-muted;
-            transition: stroke 0.15s;
-        }
+        svg { stroke: $text-muted; transition: stroke 0.15s; }
 
         &:hover {
-            background-color: rgba($severity-high, 0.1);
+            background: rgba($severity-high, 0.1);
             border-color: rgba($severity-high, 0.4);
-
-            svg {
-                stroke: $severity-high;
-            }
+            svg { stroke: $severity-high; }
         }
-
-        &:active {
-            transform: scale(0.9);
-        }
+        &:active { transform: scale(0.9); }
     }
 }
 
 @keyframes fadeSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-6px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(-5px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 // ── OR Divider ────────────────────────────────────────────────────────────────
 .or-divider {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.65rem;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
     color: $text-muted;
-    font-size: 0.75rem;
 
-    &::before,
-    &::after {
+    &::before, &::after {
         content: '';
         flex: 1;
         height: 1px;
-        background-color: $border-color;
-    }
-
-    span {
-        white-space: nowrap;
+        background: $border;
     }
 }
 
@@ -401,7 +420,7 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
 .self-description {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.45rem;
 }
 
 // ── Info Box ──────────────────────────────────────────────────────────────────
@@ -409,10 +428,10 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
     display: flex;
     align-items: flex-start;
     gap: 0.6rem;
-    padding: 0.75rem 1rem;
-    background-color: $info-bg;
-    border: 1px solid $info-border;
-    border-radius: 0.5rem;
+    padding: 0.7rem 0.9rem;
+    background: rgba(#4a90e2, 0.07);
+    border: 1px solid rgba(#4a90e2, 0.18);
+    border-radius: 0.6rem;
 
     &__icon {
         flex-shrink: 0;
@@ -422,89 +441,127 @@ $font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Robot
 
     p {
         margin: 0;
-        font-size: 0.8rem;
+        font-size: 0.775rem;
         color: #8ab4f8;
-        line-height: 1.5;
+        line-height: 1.55;
 
-        strong {
-            color: $text-primary;
-        }
+        strong { color: $text-primary; }
     }
 }
 
 // ── Generate Button ───────────────────────────────────────────────────────────
 .generate-btn {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
     background: linear-gradient(135deg, $accent 0%, darken($accent, 10%) 100%);
     color: #fff;
+    font-family: $font;
     font-size: 0.9rem;
-    font-weight: 600;
+    font-weight: 700;
     border: none;
-    border-radius: 0.5rem;
+    border-radius: 0.65rem;
     cursor: pointer;
-    transition: opacity 0.2s, transform 0.1s;
-    font-family: $font-stack;
+    letter-spacing: 0.01em;
+    transition: opacity 0.18s, transform 0.12s, box-shadow 0.18s;
+    box-shadow: 0 4px 18px rgba($accent, 0.32);
 
     &:hover {
         opacity: 0.9;
+        box-shadow: 0 6px 26px rgba($accent, 0.44);
     }
-
     &:active {
-        transform: scale(0.98);
+        transform: scale(0.97);
+        box-shadow: 0 2px 10px rgba($accent, 0.2);
     }
 }
 
-.recent-reports{
+// ── Recent Reports ────────────────────────────────────────────────────────────
+.recent-reports {
+    width: 100%;
+    max-width: 960px;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    width: 100%;
-    max-width: 900px;
+    gap: 1rem;
 
-    .reports-list{
-        display: flex;
-        gap: 0.75rem;
-        flex-wrap: wrap;
-
-        .report-item{
-            background-color: $bg-card;
-            border: 1px solid $border-color;
-            border-radius: 0.5rem;
-            padding: 1rem;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            cursor: pointer;
-            flex-shrink: 0;
-
-            .match-score {
-                font-size: 0.8rem;
-                font-weight: 600;
-                color: $accent;
-                align-items: flex-start;
-            }
-        }
+    h2 {
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: $text-muted;
+        margin: 0;
     }
 }
 
+.reports-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 0.75rem;
+}
+
+.report-item {
+    background: $bg-card;
+    border: 1px solid $border;
+    border-radius: 0.85rem;
+    padding: 1.1rem 1.25rem;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    transition: border-color 0.18s, box-shadow 0.18s, transform 0.12s;
+
+    &:hover {
+        border-color: rgba($accent, 0.3);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        transform: translateY(-2px);
+    }
+    &:active { transform: translateY(0); }
+
+    h3 {
+        margin: 0;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: $text-primary;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .report-meta {
+        margin: 0;
+        font-size: 0.75rem;
+        color: $text-muted;
+    }
+
+    .match-score {
+        margin: 0;
+        font-size: 0.775rem;
+        font-weight: 600;
+        margin-top: 0.2rem;
+
+        &.score--high { color: $severity-low; }
+        &.score--mid  { color: $severity-mid; }
+        &.score--low  { color: $severity-high; }
+    }
+}
 
 // ── Page Footer ───────────────────────────────────────────────────────────────
 .page-footer {
     display: flex;
     gap: 1.5rem;
+    margin-top: auto;
 
     a {
-        font-size: 0.8rem;
+        font-size: 0.775rem;
         color: $text-muted;
         text-decoration: none;
-        transition: color 0.2s;
+        transition: color 0.15s;
 
-        &:hover {
-            color: $text-primary;
-        }
+        &:hover { color: $text-primary; }
     }
 }
